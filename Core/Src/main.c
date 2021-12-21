@@ -38,7 +38,6 @@
 
 uint16_t buffer[BUFFER_SIZE];
 
-
 #define KEY_TIME 3 // 3 seconds
 #define TIMER_FREQ_SEC 1000000
 #define KEYS_NUM 12
@@ -95,15 +94,6 @@ void init_key(int idx, double freq, int curr, char pressed, char tone,
 	for (int i = 0; i < keys[idx].max_idx; i++) {
 		keys[idx].samples[i] = sin(2 * M_PI * freq * i
 				/ SAMPLE_RATE);
-	}
-}
-
-void key_timeout() {
-	uint32_t now = get_time();
-	for (int i = 0; i < KEYS_NUM; i++) {
-		if (now - keys[i].timestamp < KEY_TIME * TIMER_FREQ_SEC) {
-			keys[i].pressed = 0;
-		}
 	}
 }
 
@@ -229,12 +219,6 @@ void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s) {
 	fill_buffer(BUFFER_SIZE / 2, BUFFER_SIZE);
 }
 /* USER CODE END 0 */
-
-/**
-  * @brief  The application entry point.
-  * @retval int
-  */
-
 /**
   * @brief System Clock Configuration
   * @retval None
